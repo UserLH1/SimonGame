@@ -14,6 +14,8 @@ function nextSequence()
 $(".btn").click(function()
 {
     var userChosenColour = this.id;
+    var audio = new Audio("sounds/" + userChosenColour + ".mp3");
+    audio.play();
     userClickedPattern.push(userChosenColour);
     console.log(userClickedPattern);
 });
