@@ -20,6 +20,7 @@ $(document).on("keydown", function()
 //Prezentarea secventei la ultilizator
 function nextSequence()
 {
+    userClickedPattern = [];
     var randomNumber = Math.floor(Math.random() * 4);
     var randomChosenColour = buttonColours[randomNumber];
     gamePattern.push(randomChosenColour);
@@ -38,7 +39,8 @@ $(".btn").click(function()
     var audio = new Audio("sounds/" + userChosenColour + ".mp3");
     audio.play();
     userClickedPattern.push(userChosenColour);
-    animatePress(userChosenColour)
+    animatePress(userChosenColour);
+    checkAnswer(userClickedPattern.length -1)
 });
 
 //Efecte animatie pt click
@@ -51,3 +53,34 @@ function animatePress(currentColur)
 
 }
 
+//verificarea raspunsului
+function checkAnswer(currentLevel) {
+    if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
+      console.log("success");
+      if (userClickedPattern.length === gamePattern.length){
+        setTimeout(function () {
+          nextSequence();
+        }, 1000);
+      }
+    } else {
+      console.log("wrong");
+      var wrongAudio = new Audio("sounds/wrong.mp3")
+      wrongAudio.play();
+      $("body").addClass("game-over");
+      setTimeout(function()
+      {
+        $("body").removeClass("game-over");
+      }, 200);
+      $("h1").text("Game over, Press Any Key to Restart");
+      startOver();
+    }
+
+}
+
+//Reincepe jocul
+function startOver()
+{
+    level = 0;
+    gamePattern = [];
+    
+}
